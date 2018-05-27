@@ -1,20 +1,128 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<form (ngSubmit)="onSubmit()" [formGroup]="myForm" class="form">
+  <!-- ATLASSIAN CREDS -->
+  <app-atlassian-creds [group]="myForm"></app-atlassian-creds>
+  <!-- REPORT TYPE -->
+  <mat-form-field>
+    <mat-select 
+      placeholder="Report Type"
+      name="reportType" 
+      formControlName="reportType">
+      <ng-container *ngFor="let type of reportTypes">
+        <mat-option [value]="type">{{ type }}</mat-option>
+      </ng-container>
+    </mat-select>
+    <mat-error *ngIf="showRequiredError('reportType')">
+      Report Type is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <!-- DEMO SHEET ACTIONS -->
+  <mat-form-field *ngIf="isDemoAction()">
+    <mat-select 
+      placeholder="Report Action"
+      name="demoReportAction" 
+      formControlName="demoReportAction">
+      <ng-container *ngFor="let action of demoSheetActions">
+        <mat-option [value]="action">{{ action }}</mat-option>
+      </ng-container>
+    </mat-select>
+    <mat-error *ngIf="showRequiredError('demoReportAction')">
+      Report Action is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <!-- PROJECT -->
+  <mat-radio-group
+    name="project"
+    formControlName="project">
+    <mat-radio-button 
+      *ngFor="let project of projectChoices"
+      [value]="project">{{ project }}</mat-radio-button>
+  </mat-radio-group>
+  <ng-container *ngIf="isAdvancedJql()">
+    <mat-divider></mat-divider>
+    <mat-form-field>
+        <input 
+          matInput 
+          type="text" 
+          placeholder="Project Key (JQL)" 
+          name="projectKey" 
+          formControlName="projectKey"/>
+        <mat-error *ngIf="showRequiredError('projectKey')">
+          Project Key is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+  </ng-container>
+  <!-- CONFIG -->
+  <ng-container *ngIf="isUpdateDemo()">
+    <mat-form-field> <!--Add a tool tip here-->
+      <input 
+        matInput 
+        type="text" 
+        placeholder="Key Index Column" 
+        name="keyIndex" 
+        formControlName="keyIndex"/>
+      <mat-error *ngIf="showRequiredError('keyIndex')">
+        Key Index Column is <strong>required</strong>
+      </mat-error>
+      <mat-hint *ngIf="myForm.get('keyIndex').value === 'C'">If <i>unsure</i>, leave <strong>as is</strong>.</mat-hint>
+      <mat-hint *ngIf="myForm.get('keyIndex').value !== 'C'">Columns letters for Key Index <i>(shared value)</i></mat-hint>
+    </mat-form-field>
+    <mat-form-field> <!--Add a tool tip here-->
+      <input 
+        matInput 
+        type="text" 
+        placeholder="Columns to Exclude" 
+        name="exceptions" 
+        formControlName="exceptions"/>
+      <mat-error *ngIf="showRequiredError('exceptions')">
+        Exception Column(s) is(are) <strong>required</strong>
+      </mat-error>
+      <mat-hint *ngIf="myForm.get('exceptions').value === 'H, I'">If <i>unsure</i>, leave <strong>as is</strong>.</mat-hint>
+      <mat-hint *ngIf="myForm.get('exceptions').value !== 'H, I'">Columns letters for Key Index <i>(shared value)</i></mat-hint>
+    </mat-form-field>
+  </ng-container>
+  
+  <ng-container *ngIf="isDemoAction()">
+    <mat-form-field> <!--Add a tool tip here-->
+      <input 
+        matInput 
+        type="text" 
+        placeholder="Demo Sheet Tab Name" 
+        name="demoSheet" 
+        formControlName="demoSheet"/>
+      <mat-error *ngIf="showRequiredError('demoSheet')">
+        Demo Sheet Tab Name is <strong>required</strong>
+      </mat-error>
+      <mat-hint *ngIf="myForm.get('demoSheet').value === 'Sheet1'">If <i>unsure</i>, leave <strong>as is</strong>.</mat-hint>
+      <mat-hint *ngIf="myForm.get('demoSheet').value !== 'Sheet1'">Columns letters for Key Index <i>(shared value)</i></mat-hint>
+    </mat-form-field>
+  </ng-container>
+  <ng-container *ngIf="isPlanItPokerAction()">
+    <mat-form-field> <!--Add a tool tip here-->
+      <input 
+        matInput 
+        type="text" 
+        placeholder="PlanITPoker Tab Name" 
+        name="planItPoker" 
+        formControlName="planItPoker"/>
+      <mat-error *ngIf="showRequiredError('planItPoker')">
+        Exception Column(s) is(are) <strong>required</strong>
+      </mat-error>
+      <mat-hint *ngIf="myForm.get('planItPoker').value === 'Sheet2'">If <i>unsure</i>, leave <strong>as is</strong>.</mat-hint>
+      <mat-hint *ngIf="myForm.get('planItPoker').value !== 'Sheet2'">Columns letters for Key Index <i>(shared value)</i></mat-hint>
+    </mat-form-field>
+  </ng-container>
+  <mat-form-field> <!--Add a tool tip here-->
+    <input 
+      matInput 
+      type="text" 
+      placeholder="GSheets Key or URL" 
+      name="sheetKey" 
+      formControlName="sheetKey"/>
+    <mat-error *ngIf="showRequiredError('sheetKey')">
+      Exception Column(s) is(are) <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
 
+</form>
+  
+{{ myForm.valid }}
