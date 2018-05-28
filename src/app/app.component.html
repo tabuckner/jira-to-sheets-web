@@ -1,128 +1,80 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="myForm" class="form">
   <!-- ATLASSIAN CREDS -->
-  <app-atlassian-creds [group]="myForm"></app-atlassian-creds>
-  <!-- REPORT TYPE -->
-  <mat-form-field>
-    <mat-select 
-      placeholder="Report Type"
-      name="reportType" 
-      formControlName="reportType">
-      <ng-container *ngFor="let type of reportTypes">
-        <mat-option [value]="type">{{ type }}</mat-option>
-      </ng-container>
-    </mat-select>
-    <mat-error *ngIf="showRequiredError('reportType')">
-      Report Type is <strong>required</strong>
-    </mat-error>
-  </mat-form-field>
-  <!-- DEMO SHEET ACTIONS -->
-  <mat-form-field *ngIf="isDemoAction()">
-    <mat-select 
-      placeholder="Report Action"
-      name="demoReportAction" 
-      formControlName="demoReportAction">
-      <ng-container *ngFor="let action of demoSheetActions">
-        <mat-option [value]="action">{{ action }}</mat-option>
-      </ng-container>
-    </mat-select>
-    <mat-error *ngIf="showRequiredError('demoReportAction')">
-      Report Action is <strong>required</strong>
-    </mat-error>
-  </mat-form-field>
-  <!-- PROJECT -->
-  <mat-radio-group
-    name="project"
-    formControlName="project">
-    <mat-radio-button 
-      *ngFor="let project of projectChoices"
-      [value]="project">{{ project }}</mat-radio-button>
-  </mat-radio-group>
-  <ng-container *ngIf="isAdvancedJql()">
-    <mat-divider></mat-divider>
-    <mat-form-field>
-        <input 
-          matInput 
-          type="text" 
-          placeholder="Project Key (JQL)" 
-          name="projectKey" 
-          formControlName="projectKey"/>
-        <mat-error *ngIf="showRequiredError('projectKey')">
-          Project Key is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-  </ng-container>
-  <!-- CONFIG -->
-  <ng-container *ngIf="isUpdateDemo()">
-    <mat-form-field> <!--Add a tool tip here-->
-      <input 
-        matInput 
-        type="text" 
-        placeholder="Key Index Column" 
-        name="keyIndex" 
-        formControlName="keyIndex"/>
-      <mat-error *ngIf="showRequiredError('keyIndex')">
-        Key Index Column is <strong>required</strong>
-      </mat-error>
-      <mat-hint *ngIf="myForm.get('keyIndex').value === 'C'">If <i>unsure</i>, leave <strong>as is</strong>.</mat-hint>
-      <mat-hint *ngIf="myForm.get('keyIndex').value !== 'C'">Columns letters for Key Index <i>(shared value)</i></mat-hint>
-    </mat-form-field>
-    <mat-form-field> <!--Add a tool tip here-->
-      <input 
-        matInput 
-        type="text" 
-        placeholder="Columns to Exclude" 
-        name="exceptions" 
-        formControlName="exceptions"/>
-      <mat-error *ngIf="showRequiredError('exceptions')">
-        Exception Column(s) is(are) <strong>required</strong>
-      </mat-error>
-      <mat-hint *ngIf="myForm.get('exceptions').value === 'H, I'">If <i>unsure</i>, leave <strong>as is</strong>.</mat-hint>
-      <mat-hint *ngIf="myForm.get('exceptions').value !== 'H, I'">Columns letters for Key Index <i>(shared value)</i></mat-hint>
-    </mat-form-field>
-  </ng-container>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Atlassian</mat-panel-title>
+        <mat-panel-description>Your Atlassian Credentials and Project</mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-atlassian-creds [group]="myForm"></app-atlassian-creds>
+      <app-project [group]="myForm" [choices]="projectChoices"></app-project>
+    </mat-expansion-panel>
+  </mat-accordion>
   
-  <ng-container *ngIf="isDemoAction()">
-    <mat-form-field> <!--Add a tool tip here-->
-      <input 
-        matInput 
-        type="text" 
-        placeholder="Demo Sheet Tab Name" 
-        name="demoSheet" 
-        formControlName="demoSheet"/>
-      <mat-error *ngIf="showRequiredError('demoSheet')">
-        Demo Sheet Tab Name is <strong>required</strong>
-      </mat-error>
-      <mat-hint *ngIf="myForm.get('demoSheet').value === 'Sheet1'">If <i>unsure</i>, leave <strong>as is</strong>.</mat-hint>
-      <mat-hint *ngIf="myForm.get('demoSheet').value !== 'Sheet1'">Columns letters for Key Index <i>(shared value)</i></mat-hint>
-    </mat-form-field>
-  </ng-container>
-  <ng-container *ngIf="isPlanItPokerAction()">
-    <mat-form-field> <!--Add a tool tip here-->
-      <input 
-        matInput 
-        type="text" 
-        placeholder="PlanITPoker Tab Name" 
-        name="planItPoker" 
-        formControlName="planItPoker"/>
-      <mat-error *ngIf="showRequiredError('planItPoker')">
-        Exception Column(s) is(are) <strong>required</strong>
-      </mat-error>
-      <mat-hint *ngIf="myForm.get('planItPoker').value === 'Sheet2'">If <i>unsure</i>, leave <strong>as is</strong>.</mat-hint>
-      <mat-hint *ngIf="myForm.get('planItPoker').value !== 'Sheet2'">Columns letters for Key Index <i>(shared value)</i></mat-hint>
-    </mat-form-field>
-  </ng-container>
-  <mat-form-field> <!--Add a tool tip here-->
-    <input 
-      matInput 
-      type="text" 
-      placeholder="GSheets Key or URL" 
-      name="sheetKey" 
-      formControlName="sheetKey"/>
-    <mat-error *ngIf="showRequiredError('sheetKey')">
-      Exception Column(s) is(are) <strong>required</strong>
-    </mat-error>
-  </mat-form-field>
+  <!-- REPORT TYPE -->
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Report</mat-panel-title>
+        <mat-panel-description>Report Type and Configuration</mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-dropdown
+      [group]="myForm" 
+      [choices]="reportTypes" 
+      [control]="'reportType'" 
+      text="Report Action">
+      </app-dropdown>
+      <app-dropdown 
+        [group]="myForm" 
+        [choices]="demoSheetActions" 
+        control="demoReportAction" 
+        text="Report Action"
+        *ngIf="isDemoAction()"></app-dropdown>
+        <ng-container *ngIf="isUpdateDemo()">
+          <app-input-default
+            [group]="myForm"
+            control="keyIndex"
+            text="Key Index Column"
+            hint="test hint"
+            defaultValue="C"></app-input-default>
+          <app-input-default
+            [group]="myForm"
+            control="exceptions"
+            text="Columns to Exclude"
+            hint="test hint"
+            defaultValue="H, I"></app-input-default>
+        </ng-container>
+    </mat-expansion-panel>
+  </mat-accordion>
 
+  <!-- GOOGLE SHEET CONFIG -->
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Google Sheets</mat-panel-title>
+        <mat-panel-description>Google Sheets Configuration</mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-input-default
+        [group]="myForm"
+        control="sheetKey"
+        text="GSheets Key or URL"
+        hint="test hint"></app-input-default>
+      <app-input-default
+        *ngIf="isDemoAction()"
+        [group]="myForm"
+        control="demoSheet"
+        text="Demo Sheet Tab Name"
+        hint="test hint"
+        defaultValue="Sheet1"></app-input-default>
+      <app-input-default
+        *ngIf="isPlanItPokerAction()"
+        [group]="myForm"
+        control="planItPoker"
+        text="PlanITPoker Tab Name"
+        hint="test hint"
+        defaultValue="Sheet2"></app-input-default>
+    </mat-expansion-panel>
+  </mat-accordion>
 </form>
   
 {{ myForm.valid }}

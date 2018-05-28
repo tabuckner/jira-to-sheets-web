@@ -1,0 +1,18 @@
+<ng-container [formGroup]="group">
+  <mat-form-field> <!--Add a tool tip here-->
+    <input 
+      matInput 
+      [type]="type" 
+      [placeholder]="text" 
+      [name]="control" 
+      [formControlName]="control"/>
+    <!-- <mat-error *ngIf="showRequiredError('keyIndex')"> -->
+    <mat-error>
+      {{ text }} is <strong>required</strong>
+    </mat-error>
+    <!-- <mat-hint *ngIf="myForm.get('keyIndex').value === 'C'">If <i>unsure</i>, leave <strong>as is</strong>.</mat-hint>
+    <mat-hint *ngIf="myForm.get('keyIndex').value !== 'C'">Columns letters for Key Index <i>(shared value)</i></mat-hint> -->
+    <mat-hint *ngIf="isDefaultValue()">If <i>unsure</i>, leave <strong>as is</strong>.</mat-hint>
+    <mat-hint *ngIf="!isDefaultValue()">{{ hint }}</mat-hint>
+  </mat-form-field>
+</ng-container>

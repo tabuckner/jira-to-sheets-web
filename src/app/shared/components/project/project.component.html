@@ -1,0 +1,15 @@
+<ng-container [formGroup]="group">
+  <mat-radio-group
+    name="project"
+    formControlName="project">
+    <mat-radio-button 
+      *ngFor="let project of choices"
+      [value]="project">{{ project }}</mat-radio-button>
+  </mat-radio-group>
+  <app-input-default
+    *ngIf="isAdvancedJql()"
+    [group]="group"
+    control="projectKey"
+    text="Project Key (JQL)"
+    hint="test hint"></app-input-default>
+</ng-container>

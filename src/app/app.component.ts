@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'app';
   myForm = new FormGroup({
     username: new FormControl(null, [ Validators.required ]), // TODO: Move these to their own group
@@ -21,7 +21,7 @@ export class AppComponent {
     planItPoker: new FormControl('Sheet2', [ Validators.required ]),
     sheetKey: new FormControl(null, [ Validators.required ]),
   });
-  reportTypes: string[] = [
+  reportTypes: string[] = [ // TODO: Move these to a config object with default answers etc.
     'Demo Sheet',
     'PlanITPoker',
     'Both'
@@ -37,6 +37,22 @@ export class AppComponent {
     'CORE & TBN',
     'User Defined'
   ];
+
+  subscriptions = {
+    demoReportAction: this.myForm.get('demoReportAction').valueChanges,
+  }
+
+  ngOnInit() {
+    this.subscriptions.demoReportAction.subscribe(
+      (action: string) => {
+        if (action === 'Populate Blank Sheet(s)') {
+          // blank sheet actions
+        } else if (action === 'Update Existing Sheet(s)') {
+
+        }
+      }
+    );
+  }
 
   isDemoAction() {
     return this.myForm.get('reportType').value === 'Demo Sheet' || this.myForm.get('reportType').value === 'Both';

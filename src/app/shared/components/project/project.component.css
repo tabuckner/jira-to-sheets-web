@@ -1,0 +1,9 @@
+.mat-radio-group {
+  display: inline-flex;
+  flex-direction: column;
+  padding-bottom: 1.25em;
+}
+
+.mat-radio-button {
+  margin: 5px;
+}

@@ -1,0 +1,15 @@
+<ng-container [formGroup]="group">
+  <mat-form-field>
+    <mat-select 
+      [placeholder]="text"
+      [formControlName]="control">
+      <ng-container *ngFor="let choice of choices">
+        <mat-option [value]="choice">{{ choice }}</mat-option>
+      </ng-container>
+    </mat-select>
+    <!-- <mat-error *ngIf="showRequiredError('demoReportAction')"> -->
+    <mat-error>
+      {{ text }} is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+</ng-container>
