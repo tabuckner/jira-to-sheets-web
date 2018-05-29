@@ -1,0 +1,34 @@
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Report</mat-panel-title>
+      <mat-panel-description>Report Type and Configuration</mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-dropdown
+    [group]="group" 
+    [choices]="reportTypes" 
+    [control]="'reportType'" 
+    text="Report Action">
+    </app-dropdown>
+    <app-dropdown 
+      [group]="group" 
+      [choices]="demoSheetActions" 
+      control="demoReportAction" 
+      text="Report Action"
+      *ngIf="isDemoAction()"></app-dropdown>
+      <ng-container *ngIf="isUpdateDemo()">
+        <app-input-default
+          [group]="group"
+          control="keyIndex"
+          text="Key Index Column"
+          hint="test hint"
+          defaultValue="C"></app-input-default>
+        <app-input-default
+          [group]="group"
+          control="exceptions"
+          text="Columns to Exclude"
+          hint="test hint"
+          defaultValue="H, I"></app-input-default>
+      </ng-container>
+  </mat-expansion-panel>
+</mat-accordion>

@@ -19,8 +19,8 @@ import { MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, M
     AtlassianCredsComponent,
   ],
   imports: [
-    // BrowserModule,
-    BrowserAnimationsModule,
+    BrowserModule,
+    // BrowserAnimationsModule,
     // FormsModule,
     ReactiveFormsModule,
     // MatButtonModule,

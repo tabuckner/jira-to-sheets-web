@@ -10,6 +10,7 @@ import { InputDefaultComponent } from './shared/components/input-default/input-d
 import { ShowRequiredErrorDirective } from './shared/show-required-error.directive';
 import { SharedModule } from './shared/shared.module';
 import { AtlassianCredsComponent } from './core/components/atlassian-creds/atlassian-creds.component';
+import { SectionsModule } from './core/sections/sections.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { AtlassianCredsComponent } from './core/components/atlassian-creds/atlas
   ],
   imports: [
     BrowserModule,
-    // BrowserAnimationsModule,
+    BrowserAnimationsModule,
     // FormsModule,
     ReactiveFormsModule,
     // MatButtonModule,
@@ -33,6 +34,7 @@ import { AtlassianCredsComponent } from './core/components/atlassian-creds/atlas
     MatExpansionModule,
     // MatIconModule
     SharedModule,
+    SectionsModule,
   ],
   exports: [],
   providers: [],

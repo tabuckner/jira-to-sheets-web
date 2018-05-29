@@ -1,6 +1,7 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="myForm" class="form">
   <!-- ATLASSIAN CREDS -->
-  <mat-accordion>
+  <app-atlassian-section [group]="myForm" [projectChoices]="questions.atlassian.projectChoices"></app-atlassian-section>
+  <!-- <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>Atlassian</mat-panel-title>
@@ -9,10 +10,11 @@
       <app-atlassian-creds [group]="myForm"></app-atlassian-creds>
       <app-project [group]="myForm" [choices]="projectChoices"></app-project>
     </mat-expansion-panel>
-  </mat-accordion>
+  </mat-accordion> -->
   
   <!-- REPORT TYPE -->
-  <mat-accordion>
+  <app-report-section [group]="myForm"></app-report-section>
+  <!-- <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>Report</mat-panel-title>
@@ -45,10 +47,11 @@
             defaultValue="H, I"></app-input-default>
         </ng-container>
     </mat-expansion-panel>
-  </mat-accordion>
+  </mat-accordion> -->
 
   <!-- GOOGLE SHEET CONFIG -->
-  <mat-accordion>
+  <app-google-section [group]="myForm"></app-google-section>
+  <!-- <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>Google Sheets</mat-panel-title>
@@ -74,7 +77,7 @@
         hint="test hint"
         defaultValue="Sheet2"></app-input-default>
     </mat-expansion-panel>
-  </mat-accordion>
+  </mat-accordion> -->
 </form>
   
 {{ myForm.valid }}

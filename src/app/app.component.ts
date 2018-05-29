@@ -37,6 +37,18 @@ export class AppComponent implements OnInit{
     'CORE & TBN',
     'User Defined'
   ];
+  
+  questions = {
+    atlassian: {
+      projectChoices: [
+        'RT',
+        'CORE',
+        'TBN', 
+        'CORE & TBN',
+        'User Defined'
+      ],
+    },
+  }
 
   subscriptions = {
     demoReportAction: this.myForm.get('demoReportAction').valueChanges,
@@ -60,7 +72,6 @@ export class AppComponent implements OnInit{
 
   isPlanItPokerAction() {
     return this.myForm.get('reportType').value === 'PlanITPoker' || this.myForm.get('reportType').value === 'Both';
-    
   }
 
   isAdvancedJql() {
