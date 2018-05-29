@@ -14,26 +14,27 @@ import { AtlassianCredsComponent } from './core/components/atlassian-creds/atlas
 @NgModule({
   declarations: [
     AppComponent,
-    ProjectComponent,
-    DropdownComponent,
-    InputDefaultComponent,
-    AtlassianCredsComponent,
+    // ProjectComponent,
+    // DropdownComponent,
+    // InputDefaultComponent,
+    // AtlassianCredsComponent,
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
-    SharedModule,
-    FormsModule,
+    // BrowserAnimationsModule,
+    // FormsModule,
     ReactiveFormsModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatRadioModule,
-    MatDividerModule,
+    // MatButtonModule,
+    // MatFormFieldModule,
+    // MatInputModule,
+    // MatSelectModule,
+    // MatRadioModule,
+    // MatDividerModule,
     MatExpansionModule,
-    MatIconModule
+    // MatIconModule
+    SharedModule,
   ],
+  exports: [],
   providers: [],
   bootstrap: [AppComponent]
 })
