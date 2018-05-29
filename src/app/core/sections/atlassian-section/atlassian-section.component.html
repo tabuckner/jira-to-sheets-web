@@ -1,0 +1,10 @@
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Atlassian</mat-panel-title>
+      <mat-panel-description>Your Atlassian Credentials and Project</mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-atlassian-creds [group]="group"></app-atlassian-creds>
+    <app-project [group]="group" [choices]="projectChoices"></app-project>
+  </mat-expansion-panel>
+</mat-accordion>

@@ -1,0 +1,29 @@
+<ng-container>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Google Sheets</mat-panel-title>
+        <mat-panel-description>Google Sheets Configuration</mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-input-default
+        [group]="group"
+        control="sheetKey"
+        text="GSheets Key or URL"
+        hint="test hint"></app-input-default>
+      <app-input-default
+        *ngIf="isDemoAction()"
+        [group]="group"
+        control="demoSheet"
+        text="Demo Sheet Tab Name"
+        hint="test hint"
+        defaultValue="Sheet1"></app-input-default>
+      <app-input-default
+        *ngIf="isPlanItPokerAction()"
+        [group]="group"
+        control="planItPoker"
+        text="PlanITPoker Tab Name"
+        hint="test hint"
+        defaultValue="Sheet2"></app-input-default>
+    </mat-expansion-panel>
+  </mat-accordion>
+</ng-container>
